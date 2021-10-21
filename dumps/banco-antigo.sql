@@ -1,6 +1,6 @@
 CREATE DATABASE php_migration_old
 
-USE php_migration_old
+USE php_migration_old;
 
 CREATE TABLE pedido (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

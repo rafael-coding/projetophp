@@ -1,45 +1,62 @@
-<?php
+  <?php
+  include_once('head.php');
+  ?>
 
-$hostname = 'localhost';
-$database = 'php_migration_old';
-$newDatabaseName = 'php_crud_structured';
-$user = 'root';
-$pass = '';
+    <div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom text-white">PDV</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-4 text-white">
+      <div class="col d-flex align-items-start">
+        <div class="col-12 text-center">
+          <h2 class="mb-0">Clientes</h2>
+          <div class="col-12 text-center my-5">
+          <i class="bi bi-people-fill text-white display-1"></i>
+          </div>
+          <a href="./client/readClient.php" class="btn btn-primary">
+            Clientes
+          </a>
+        </div>
+      </div>
 
-$connection;
+      <div class="col d-flex align-items-start">
+        <div class="col-12 text-center">
+          <h2 class="mb-0">Produtos</h2>
+          <div class="col-12 text-center my-5">
+          <i class="bi bi-box-seam text-white display-1"></i>
+          </div>
+          <a href="./products/readProduct.php" class="btn btn-primary">
+            Produtos
+          </a>
+        </div>
+      </div>
 
-try {
-    // Conexão com o banco antigo
-    $connection = new PDO("mysql:host=$hostname;dbname=$database", $user, $pass);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      <div class="col d-flex align-items-start">
+        <div class="col-12 text-center">
+          <h2 class="mb-0">Pedidos</h2>
+          <div class="col-12 text-center my-5">
+          <i class="bi bi-cart-check-fill text-white display-1"></i>
+          </div>
+          <a href="./orders/readOrder.php" class="btn btn-primary">
+            Pedidos
+          </a>
+        </div>
+      </div>
 
-    // Conexão com o novo banco
-    $newDatabaseConn = new PDO("mysql:host=$hostname;dbname=$newDatabaseName", $user, $pass);
-    $newDatabaseConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $resultado = $connection->query("select * from pedido");
-    foreach ($resultado as $register) {
-        // Inserindo dado
-        $queryInsert = $newDatabaseConn->prepare("INSERT INTO cliente (nome_cliente, cpf, email) VALUES (:nome, :cpf, :email)");
-        $queryInsert->execute(array(
-            ":nome" => $register["nome_cliente"],
-            ":cpf" => $register["cpf"],
-            ":email" => $register["email"]
-        ));
-    }
+      <div class="col d-flex align-items-start">
+        <div class="col-12 text-center">
+          <h2 class="mb-0">Migração</h2>
+          <div class="col-12 text-center my-5">
+          <i class="bi bi-diagram-3 text-white display-1"></i>
+          </div>
+          <a href="#" id="migration" class="btn btn-primary">
+            Migração
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 
-     // Testando conexão com o novo banco
-     $newTable = $newDatabaseConn->query("select * from cliente");
-     echo "<pre>";
-     foreach ($newTable as $result) {
-        print_r($result);
-    }
-    echo "</pre>";
-
-} catch (PDOException $e) {
-    echo "Deu ruim maluco";
-    echo $e->getMessage();
-} finally {
-    $oldDatabaseConn = null;
-    $newDatabaseConn = null;
-}
+  <?php
+  include_once('footer.php');
+  ?>
